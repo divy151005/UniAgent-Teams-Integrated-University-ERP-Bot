@@ -1,13 +1,13 @@
 package com.university.erp.repository;
 
 import com.university.erp.model.Message;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MessageRepository extends JpaRepository<Message, Long> {
+public interface MessageRepository extends MongoRepository<Message, Long> {
 
     List<Message> findByStatusOrderByCreatedAtDesc(Message.MessageStatus status);
 
@@ -19,6 +19,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
     long countByIntent(String intent);
 
-    @Query("SELECT COUNT(m) FROM Message m WHERE m.erpSynced = true")
+    @Query("{'erpSynced': true}")
     long countErpSynced();
 }

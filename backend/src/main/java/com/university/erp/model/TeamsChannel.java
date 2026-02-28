@@ -1,10 +1,11 @@
 package com.university.erp.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import lombok.*;
 
-@Entity
-@Table(name = "teams_channels")
+@Document(collection = "teams_channels")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,22 +13,22 @@ import lombok.*;
 public class TeamsChannel {
 
     @Id
-    @Column(nullable = false, unique = true)
+    @Field(name = "channel_id")
     private String channelId;    // e.g. CH001
 
-    @Column(nullable = false)
+    @Field(name = "channel_name")
     private String channelName;  // e.g. CSE_BTech_1st_Year
 
-    @Column(name = "academic_year")
+    @Field(name = "academic_year")
     private int year;            // academic year 1-4
 
     private String section;      // A, B, C...
 
+    @Field(name = "member_count")
     private int memberCount;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "program_id", nullable = false)
-    private Program program;
+    @Field(name = "program_id")
+    private Long programId;
 
     private boolean active;
 }
