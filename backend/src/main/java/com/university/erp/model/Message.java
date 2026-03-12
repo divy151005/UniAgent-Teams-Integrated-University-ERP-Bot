@@ -1,12 +1,13 @@
 package com.university.erp.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-@Table(name = "messages")
+@Document(collection = "messages")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,35 +15,37 @@ import java.util.List;
 public class Message {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 2000)
+    @Field(name = "raw_text")
     private String rawText;
 
-    @Column(nullable = false)
+    @Field(name = "from_user")
     private String fromUser;
 
     private String intent;           // announcement | query | task
 
+    @Field(name = "intent_confidence")
     private double intentConfidence;
 
-    @Column(length = 1000)
+    @Field(name = "entities_json")
     private String entitiesJson;     // JSON string of extracted entities
 
-    @Column(length = 500)
+    @Field(name = "target_channels_json")
     private String targetChannelsJson; // JSON array of channel IDs
 
-    @Enumerated(EnumType.STRING)
     private MessageStatus status;
 
+    @Field(name = "erp_synced")
     private boolean erpSynced;
 
+    @Field(name = "erp_event_id")
     private String erpEventId;
 
-    @Column(nullable = false)
+    @Field(name = "created_at")
     private LocalDateTime createdAt;
 
+    @Field(name = "processed_at")
     private LocalDateTime processedAt;
 
     public enum MessageStatus {

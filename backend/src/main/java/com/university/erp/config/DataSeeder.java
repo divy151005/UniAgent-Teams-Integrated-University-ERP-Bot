@@ -40,44 +40,50 @@ public class DataSeeder implements CommandLineRunner {
 
         // ── Departments ───────────────────────────────────────────────────────
         Department cse = deptRepo.save(Department.builder().name("Computer Science & Engineering")
-            .code("CSE").school(engSchool).build());
+            .code("CSE").schoolId(engSchool.getId()).build());
         Department ece = deptRepo.save(Department.builder().name("Electronics & Communication Engineering")
-            .code("ECE").school(engSchool).build());
+            .code("ECE").schoolId(engSchool.getId()).build());
         Department mech = deptRepo.save(Department.builder().name("Mechanical Engineering")
-            .code("MECH").school(engSchool).build());
+            .code("MECH").schoolId(engSchool.getId()).build());
         Department mba = deptRepo.save(Department.builder().name("Master of Business Administration")
-            .code("MBA").school(mgmtSchool).build());
+            .code("MBA").schoolId(mgmtSchool.getId()).build());
         Department phy = deptRepo.save(Department.builder().name("Physics")
-            .code("PHYSICS").school(sciSchool).build());
+            .code("PHYSICS").schoolId(sciSchool.getId()).build());
 
         // ── Programs ──────────────────────────────────────────────────────────
-        Program cseBtech = programRepo.save(Program.builder().name("B.Tech").durationYears(4).department(cse).build());
-        Program cseMtech = programRepo.save(Program.builder().name("M.Tech").durationYears(2).department(cse).build());
-        Program eceBtech = programRepo.save(Program.builder().name("B.Tech").durationYears(4).department(ece).build());
-        Program mechBtech = programRepo.save(Program.builder().name("B.Tech").durationYears(4).department(mech).build());
-        Program mbaProg  = programRepo.save(Program.builder().name("MBA").durationYears(2).department(mba).build());
+        Program cseBtech = programRepo.save(Program.builder().name("B.Tech").durationYears(4).departmentId(cse.getId()).build());
+        Program cseMtech = programRepo.save(Program.builder().name("M.Tech").durationYears(2).departmentId(cse.getId()).build());
+        Program eceBtech = programRepo.save(Program.builder().name("B.Tech").durationYears(4).departmentId(ece.getId()).build());
+        Program mechBtech = programRepo.save(Program.builder().name("B.Tech").durationYears(4).departmentId(mech.getId()).build());
+        Program mbaProg  = programRepo.save(Program.builder().name("MBA").durationYears(2).departmentId(mba.getId()).build());
+
+        // General notifications program for bot messages
+        Program generalProg = programRepo.save(Program.builder()
+            .name("General Notifications").durationYears(0).departmentId(cse.getId()).build());
 
         // ── Teams Channels ────────────────────────────────────────────────────
         // CSE B.Tech years 1-4
         channelRepo.saveAll(List.of(
-            ch("CH001", "CSE_BTech_1st_Year", cseBtech, 1, 120),
-            ch("CH002", "CSE_BTech_2nd_Year", cseBtech, 2, 118),
-            ch("CH003", "CSE_BTech_3rd_Year", cseBtech, 3, 115),
-            ch("CH004", "CSE_BTech_4th_Year", cseBtech, 4, 112),
+            ch("CH001", "CSE_BTech_1st_Year", cseBtech, 1, 120, "19:team123@thread.tacv2", "19:general@thread.v2"),
+            ch("CH002", "CSE_BTech_2nd_Year", cseBtech, 2, 118, "19:team456@thread.tacv2", "19:general@thread.v2"),
+            ch("CH003", "CSE_BTech_3rd_Year", cseBtech, 3, 115, "19:team789@thread.tacv2", "19:general@thread.v2"),
+            ch("CH004", "CSE_BTech_4th_Year", cseBtech, 4, 112, "19:team012@thread.tacv2", "19:general@thread.v2"),
             // CSE M.Tech
-            ch("CH005", "CSE_MTech_1st_Year", cseMtech, 1, 45),
-            ch("CH006", "CSE_MTech_2nd_Year", cseMtech, 2, 42),
+            ch("CH005", "CSE_MTech_1st_Year", cseMtech, 1, 45, "19:team345@thread.tacv2", "19:general@thread.v2"),
+            ch("CH006", "CSE_MTech_2nd_Year", cseMtech, 2, 42, "19:team678@thread.tacv2", "19:general@thread.v2"),
             // ECE B.Tech years 1-4
-            ch("CH007", "ECE_BTech_1st_Year", eceBtech, 1, 90),
-            ch("CH008", "ECE_BTech_2nd_Year", eceBtech, 2, 88),
-            ch("CH009", "ECE_BTech_3rd_Year", eceBtech, 3, 86),
-            ch("CH010", "ECE_BTech_4th_Year", eceBtech, 4, 83),
+            ch("CH007", "ECE_BTech_1st_Year", eceBtech, 1, 90, "19:ece1@thread.tacv2", "19:general@thread.v2"),
+            ch("CH008", "ECE_BTech_2nd_Year", eceBtech, 2, 88, "19:ece2@thread.tacv2", "19:general@thread.v2"),
+            ch("CH009", "ECE_BTech_3rd_Year", eceBtech, 3, 86, "19:ece3@thread.tacv2", "19:general@thread.v2"),
+            ch("CH010", "ECE_BTech_4th_Year", eceBtech, 4, 83, "19:ece4@thread.tacv2", "19:general@thread.v2"),
             // MECH B.Tech
-            ch("CH011", "MECH_BTech_1st_Year", mechBtech, 1, 75),
-            ch("CH012", "MECH_BTech_2nd_Year", mechBtech, 2, 73),
+            ch("CH011", "MECH_BTech_1st_Year", mechBtech, 1, 75, "19:mech1@thread.tacv2", "19:general@thread.v2"),
+            ch("CH012", "MECH_BTech_2nd_Year", mechBtech, 2, 73, "19:mech2@thread.tacv2", "19:general@thread.v2"),
             // MBA
-            ch("CH013", "MBA_1st_Year", mbaProg, 1, 60),
-            ch("CH014", "MBA_2nd_Year", mbaProg, 2, 58)
+            ch("CH013", "MBA_1st_Year", mbaProg, 1, 60, "19:mba1@thread.tacv2", "19:general@thread.v2"),
+            ch("CH014", "MBA_2nd_Year", mbaProg, 2, 58, "19:mba2@thread.tacv2", "19:general@thread.v2"),
+            // General notifications channel for bot messages
+            ch("GENERAL", "General_Notifications", generalProg, 0, 1000, "2401003150@cgcjhanjeri.in", "2401003150@cgcjhanjeri.in")
         ));
 
         // ── Seed ERP Events ───────────────────────────────────────────────────
@@ -102,7 +108,7 @@ public class DataSeeder implements CommandLineRunner {
             .event("Knowledge graph loaded: 3 schools, 5 depts, 5 programs, 14 channels").build());
         logRepo.save(SystemLog.builder().timestamp(LocalDateTime.now().minusMinutes(43))
             .source("Teams Bot").level(SystemLog.LogLevel.SUCCESS)
-            .event("Teams bot connected and listening on 14 channels").build());
+            .event("Teams bot connected and listening on 15 channels (incl. GENERAL: 2401003150@cgcjhanjeri.in)").build());
 
         // ── Seed sample messages through pipeline ─────────────────────────────
         messageService.processMessage(
@@ -129,9 +135,9 @@ public class DataSeeder implements CommandLineRunner {
         log.info("Database seeding complete.");
     }
 
-    private TeamsChannel ch(String id, String name, Program prog, int year, int members) {
+    private TeamsChannel ch(String id, String name, Program prog, int year, int members, String msTeamId, String msChannelId) {
         return TeamsChannel.builder()
-            .channelId(id).channelName(name).program(prog)
-            .year(year).memberCount(members).active(true).build();
+            .channelId(id).channelName(name).programId(prog.getId())
+            .year(year).memberCount(members).msTeamId(msTeamId).msChannelId(msChannelId).active(true).build();
     }
 }
