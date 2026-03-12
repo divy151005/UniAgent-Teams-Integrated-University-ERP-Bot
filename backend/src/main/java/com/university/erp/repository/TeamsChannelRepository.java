@@ -10,15 +10,15 @@ import java.util.List;
 @Repository
 public interface TeamsChannelRepository extends MongoRepository<TeamsChannel, String> {
 
-    List<TeamsChannel> findByProgramId(Long programId);
+    List<TeamsChannel> findByProgramId(String programId);
 
     List<TeamsChannel> findByYear(int year);
 
-    @Query("{'programId': { $in: ?0 }, 'year': ?1, 'active': true}")
+    @Query("{'programId': ?0, 'year': ?1, 'active': true}")
     List<TeamsChannel> findByDeptCodeAndYear(@Param("deptCode") String deptCode,
                                               @Param("year") int year);
 
-    @Query("{'programId': { $in: ?0 }, 'active': true}")
+    @Query("{'programId': ?0, 'active': true}")
     List<TeamsChannel> findByDeptCode(@Param("deptCode") String deptCode);
 
     List<TeamsChannel> findByActiveTrue();

@@ -20,6 +20,16 @@ public class MessageController {
 
     private final MessageService messageService;
     private final MessageRepository messageRepo;
+    
+    /**
+     * POST /api/messages/teams/webhook - Teams Bot Framework webhook endpoint
+     */
+    @PostMapping("/teams/webhook")
+    public ResponseEntity<String> teamsWebhook(@RequestBody String rawActivity) {
+        // Forward to MessageService.processTeamsMessage for bot activity processing
+        messageService.processTeamsWebhook(rawActivity);
+        return ResponseEntity.ok("OK");
+    }
 
     /**
      * POST /api/messages — ingest & process a new message through NLP pipeline
@@ -58,7 +68,7 @@ public class MessageController {
      * GET /api/messages/:id
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Message> getMessage(@PathVariable Long id) {
+    public ResponseEntity<Message> getMessage(@PathVariable String id) {
         return messageRepo.findById(id)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
@@ -68,7 +78,7 @@ public class MessageController {
      * POST /api/messages/:id/approve — admin approves pending message
      */
     @PostMapping("/{id}/approve")
-    public ResponseEntity<Message> approve(@PathVariable Long id) {
+    public ResponseEntity<Message> approve(@PathVariable String id) {
         Message msg = messageService.approveMessage(id);
         return ResponseEntity.ok(msg);
     }
@@ -77,7 +87,7 @@ public class MessageController {
      * POST /api/messages/:id/reject
      */
     @PostMapping("/{id}/reject")
-    public ResponseEntity<Message> reject(@PathVariable Long id) {
+    public ResponseEntity<Message> reject(@PathVariable String id) {
         Message msg = messageService.rejectMessage(id);
         return ResponseEntity.ok(msg);
     }

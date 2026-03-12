@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MessageRepository extends MongoRepository<Message, Long> {
+public interface MessageRepository extends MongoRepository<Message, String> {
 
     List<Message> findByStatusOrderByCreatedAtDesc(Message.MessageStatus status);
 
@@ -19,6 +19,5 @@ public interface MessageRepository extends MongoRepository<Message, Long> {
 
     long countByIntent(String intent);
 
-    @Query("{'erpSynced': true}")
-    long countErpSynced();
+    long countByErpSyncedTrue();
 }

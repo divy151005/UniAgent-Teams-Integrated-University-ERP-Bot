@@ -15,7 +15,7 @@ import java.util.List;
 public class School {
 
     @Id
-    private Long id;
+    private String id;
 
     private String name;
 

@@ -6,9 +6,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SystemLogRepository extends MongoRepository<SystemLog, Long> {
+public interface SystemLogRepository extends MongoRepository<SystemLog, String> {
     List<SystemLog> findAllByOrderByTimestampDesc();
-    List<SystemLog> findByMessageId(Long messageId);
+    List<SystemLog> findByMessageId(String messageId);
     List<SystemLog> findTop50ByOrderByTimestampDesc();
     List<SystemLog> findByLevel(SystemLog.LogLevel level);
 }

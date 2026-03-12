@@ -30,7 +30,7 @@ public class ErpEvent {
     private EventStatus status;
 
     @Field(name = "source_message_id")
-    private Long sourceMessageId;
+    private String sourceMessageId;
 
     @Field(name = "created_at")
     private LocalDateTime createdAt;

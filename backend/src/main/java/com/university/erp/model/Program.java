@@ -15,7 +15,7 @@ import java.util.List;
 public class Program {
 
     @Id
-    private Long id;
+    private String id;
 
     private String name;   // e.g. B.Tech, M.Tech, MBA
 
@@ -23,7 +23,7 @@ public class Program {
     private int durationYears;
 
     @Field(name = "department_id")
-    private Long departmentId;
+    private String departmentId;
 
     private List<TeamsChannel> channels;
 }

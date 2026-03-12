@@ -1,3 +1,4 @@
+
 package com.university.erp.service;
 
 import com.university.erp.model.Message;
@@ -26,7 +27,7 @@ public class DashboardService {
         stats.put("escalatedMessages", messageRepo.countByStatus(Message.MessageStatus.ESCALATED));
         stats.put("totalChannels",   channelRepo.count());
         stats.put("totalEvents",     erpEventRepo.count());
-        stats.put("erpSynced",       messageRepo.countErpSynced());
+        stats.put("erpSynced",       messageRepo.countByErpSyncedTrue());
 
         Map<String, Long> intentBreakdown = new LinkedHashMap<>();
         intentBreakdown.put("announcement", messageRepo.countByIntent("announcement"));

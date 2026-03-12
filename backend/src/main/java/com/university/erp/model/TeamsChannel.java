@@ -27,8 +27,14 @@ public class TeamsChannel {
     @Field(name = "member_count")
     private int memberCount;
 
-    @Field(name = "program_id")
-    private Long programId;
+@Field(name = "program_id")
+    private String programId;
+
+    @Field(name = "ms_team_id")
+    private String msTeamId;     // Microsoft Teams Group ID e.g. 19:abc@thread.tacv2
+
+    @Field(name = "ms_channel_id")
+    private String msChannelId;  // Microsoft Teams Channel ID e.g. 19:def@thread.v2
 
     private boolean active;
 }

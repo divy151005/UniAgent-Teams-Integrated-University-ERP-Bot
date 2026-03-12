@@ -15,14 +15,14 @@ import java.util.List;
 public class Department {
 
     @Id
-    private Long id;
+    private String id;
 
     private String name;
 
     private String code;
 
     @Field(name = "school_id")
-    private Long schoolId;
+    private String schoolId;
 
     private List<Program> programs;
 }

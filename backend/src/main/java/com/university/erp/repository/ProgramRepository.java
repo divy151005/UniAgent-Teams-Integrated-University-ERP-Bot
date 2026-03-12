@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProgramRepository extends MongoRepository<Program, Long> {
-    List<Program> findByDepartmentId(Long departmentId);
-    List<Program> findByDepartmentCode(String deptCode);
+public interface ProgramRepository extends MongoRepository<Program, String> {
+    List<Program> findByDepartmentId(String departmentId);
 }

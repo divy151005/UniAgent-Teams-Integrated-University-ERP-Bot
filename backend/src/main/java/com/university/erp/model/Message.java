@@ -15,7 +15,7 @@ import java.util.List;
 public class Message {
 
     @Id
-    private Long id;
+    private String id;
 
     @Field(name = "raw_text")
     private String rawText;

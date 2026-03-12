@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface DepartmentRepository extends MongoRepository<Department, Long> {
-    List<Department> findBySchoolId(Long schoolId);
+public interface DepartmentRepository extends MongoRepository<Department, String> {
+    List<Department> findBySchoolId(String schoolId);
     Optional<Department> findByCodeIgnoreCase(String code);
     Optional<Department> findByNameContainingIgnoreCase(String name);
 }

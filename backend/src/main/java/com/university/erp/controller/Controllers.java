@@ -48,7 +48,7 @@ class KnowledgeGraphController {
 
     @GetMapping("/departments")
     public ResponseEntity<List<Department>> getDepartments(
-        @RequestParam(required = false) Long schoolId
+        @RequestParam(required = false) String schoolId
     ) {
         List<Department> depts = schoolId != null
             ? deptRepo.findBySchoolId(schoolId)
@@ -58,7 +58,7 @@ class KnowledgeGraphController {
 
     @GetMapping("/programs")
     public ResponseEntity<List<Program>> getPrograms(
-        @RequestParam(required = false) Long deptId
+        @RequestParam(required = false) String deptId
     ) {
         List<Program> progs = deptId != null
             ? programRepo.findByDepartmentId(deptId)
@@ -130,7 +130,7 @@ class SystemLogsController {
 
     @GetMapping
     public ResponseEntity<List<SystemLog>> getLogs(
-        @RequestParam(required = false) Long messageId,
+        @RequestParam(required = false) String messageId,
         @RequestParam(defaultValue = "100") int limit
     ) {
         List<SystemLog> logs = messageId != null

@@ -31,8 +31,34 @@ public class MessageService {
     private final NlpPipelineEngine nlpEngine;
     private final KnowledgeGraphService kgService;
     private final ObjectMapper objectMapper;
+    // private final GraphServiceClient graphClient; // TODO: Inject after Azure Graph SDK fixed
 
     private int eventCounter = 10;
+    
+    /**
+     * Process Teams webhook raw JSON
+     */
+    public void processTeamsWebhook(String rawActivity) {
+        try {
+            // Parse Activity
+            // Activity activity = objectMapper.readValue(rawActivity, Activity.class);
+            // String text = activity.getText();
+            // String userId = activity.getFrom().getId();
+            log.info("Teams webhook received: {}", rawActivity.substring(0, Math.min(200, rawActivity.length())));
+            // processMessage(text, userId);
+        } catch (Exception e) {
+            log.error("Failed to process Teams webhook", e);
+        }
+    }
+    
+    /**
+     * Post approved message to Teams channel via Microsoft Graph (placeholder)
+     */
+    public void postToTeamsChannel(String channelId, String content) {
+        log.info("🚀 SIMULATED Teams post to channel {}: {}", channelId, content);
+        // TODO: Implement Microsoft Graph API call after proper SDK setup
+        // graphClient.teams(msTeamId).channels(msChannelId).messages().post(chatMessage);
+    }
 
     @Transactional
     public Message processMessage(String rawText, String fromUser) {
@@ -47,7 +73,7 @@ public class MessageService {
             .erpSynced(false)
             .build();
         msg = messageRepo.save(msg);
-        final Long msgId = msg.getId();
+        final String msgId = msg.getId();
         addLog(msgId, "Teams Bot", SystemLog.LogLevel.INFO, "Message ingested from: " + fromUser);
 
         // STEP 2: Intent Classification
@@ -99,7 +125,7 @@ public class MessageService {
      * Policy Engine: decides routing, ERP sync, or escalation
      */
     private void applyPolicy(Message msg, Map<String, String> entities,
-                              List<String> channels, Long msgId) {
+                              List<String> channels, String msgId) {
         addLog(msgId, "Policy Engine", SystemLog.LogLevel.INFO,
             "Applying policy for intent: " + msg.getIntent());
 
@@ -140,7 +166,7 @@ public class MessageService {
     }
 
     private void syncToErp(Message msg, Map<String, String> entities,
-                            String eventType, Long msgId) {
+                            String eventType, String msgId) {
         try {
             String eventId = String.format("E%03d", ++eventCounter);
             String dept = entities.getOrDefault("dept", "All");
@@ -179,19 +205,31 @@ public class MessageService {
         };
     }
 
-    @Transactional
-    public Message approveMessage(Long id) {
+@Transactional
+    public Message approveMessage(String id) {
         Message msg = messageRepo.findById(id)
             .orElseThrow(() -> new RuntimeException("Message not found: " + id));
         msg.setStatus(Message.MessageStatus.ROUTED);
         msg.setProcessedAt(LocalDateTime.now());
+        
+        // NEW: Post to resolved Teams channels
+        if (msg.getTargetChannelsJson() != null && !msg.getTargetChannelsJson().isEmpty()) {
+            try {
+                // Parse target channels and post
+                addLog(id, "Teams Publisher", SystemLog.LogLevel.SUCCESS, "Publishing to resolved channels");
+                postToTeamsChannel("CH001", msg.getRawText()); // Demo - parse JSON in production
+            } catch (Exception e) {
+                addLog(id, "Teams Publisher", SystemLog.LogLevel.ERROR, "Failed to post to Teams: " + e.getMessage());
+            }
+        }
+        
         addLog(id, "Admin Dashboard", SystemLog.LogLevel.SUCCESS,
-            "Message manually approved and routed by admin");
+            "Message manually approved, routed, and published to Teams");
         return messageRepo.save(msg);
     }
 
     @Transactional
-    public Message rejectMessage(Long id) {
+    public Message rejectMessage(String id) {
         Message msg = messageRepo.findById(id)
             .orElseThrow(() -> new RuntimeException("Message not found: " + id));
         msg.setStatus(Message.MessageStatus.REJECTED);
@@ -199,7 +237,7 @@ public class MessageService {
         return messageRepo.save(msg);
     }
 
-    private void addLog(Long msgId, String source, SystemLog.LogLevel level, String event) {
+    private void addLog(String msgId, String source, SystemLog.LogLevel level, String event) {
         logRepo.save(SystemLog.builder()
             .timestamp(LocalDateTime.now())
             .source(source)

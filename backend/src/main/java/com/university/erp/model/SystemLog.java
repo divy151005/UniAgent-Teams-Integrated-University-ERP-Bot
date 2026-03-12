@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class SystemLog {
 
     @Id
-    private Long id;
+    private String id;
 
     private LocalDateTime timestamp;
 
@@ -25,7 +25,7 @@ public class SystemLog {
     private LogLevel level;
 
     @Field(name = "message_id")
-    private Long messageId;
+    private String messageId;
 
     public enum LogLevel {
         INFO, SUCCESS, WARNING, ERROR
