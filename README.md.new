@@ -1,0 +1,29 @@
+# UniAgent ERP System
+### Agent-Based University Administration with Microsoft Teams Integration
+
+[... full content from previous README ...]
+
+## 🚀 Free Cloud Deployment (Render + Vercel)
+
+✅ **Prep complete** - Builds JAR/static files, prod CORS, API proxy.
+
+### Backend (Render - free tier)
+1. render.com → New Web Service → GitHub repo: divy151005/UniAgent-Teams-Integrated-University-ERP-Bot
+2. Dir: `/backend`, Java runtime, build `mvn clean package -DskipTests`, start `java -jar target/erp-agent-1.0.0.jar`
+3. Backend API: `https://[your-app].onrender.com/api`
+
+### Frontend (Vercel - free)
+1. vercel.com → Import repo, dir `/frontend`, Vite preset
+2. Add env `VITE_API_URL=https://[your-backend].onrender.com`
+3. Frontend: `https://[your-app].vercel.app`
+
+**Live Demo URLs:**
+- Frontend: [TBD]
+- Backend API: [TBD]
+- H2 Console: [backend]/h2-console (local only)
+
+**Notes:** H2 DB resets on restart (free tier sleeps). Upgrade PostgreSQL for persistence.
+
+---
+
+[... rest of original README ...]
