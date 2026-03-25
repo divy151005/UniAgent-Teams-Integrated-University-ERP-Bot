@@ -1,12 +1,12 @@
 package com.university.erp.repository;
 
 import com.university.erp.model.Program;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProgramRepository extends JpaRepository<Program, Long> {
+public interface ProgramRepository extends MongoRepository<Program, Long> {
     List<Program> findByDepartmentId(Long departmentId);
     List<Program> findByDepartmentCode(String deptCode);
 }

@@ -40,22 +40,22 @@ public class DataSeeder implements CommandLineRunner {
 
         // ── Departments ───────────────────────────────────────────────────────
         Department cse = deptRepo.save(Department.builder().name("Computer Science & Engineering")
-            .code("CSE").school(engSchool).build());
+            .code("CSE").schoolId(engSchool.getId()).build());
         Department ece = deptRepo.save(Department.builder().name("Electronics & Communication Engineering")
-            .code("ECE").school(engSchool).build());
+            .code("ECE").schoolId(engSchool.getId()).build());
         Department mech = deptRepo.save(Department.builder().name("Mechanical Engineering")
-            .code("MECH").school(engSchool).build());
+            .code("MECH").schoolId(engSchool.getId()).build());
         Department mba = deptRepo.save(Department.builder().name("Master of Business Administration")
-            .code("MBA").school(mgmtSchool).build());
+            .code("MBA").schoolId(mgmtSchool.getId()).build());
         Department phy = deptRepo.save(Department.builder().name("Physics")
-            .code("PHYSICS").school(sciSchool).build());
+            .code("PHYSICS").schoolId(sciSchool.getId()).build());
 
         // ── Programs ──────────────────────────────────────────────────────────
-        Program cseBtech = programRepo.save(Program.builder().name("B.Tech").durationYears(4).department(cse).build());
-        Program cseMtech = programRepo.save(Program.builder().name("M.Tech").durationYears(2).department(cse).build());
-        Program eceBtech = programRepo.save(Program.builder().name("B.Tech").durationYears(4).department(ece).build());
-        Program mechBtech = programRepo.save(Program.builder().name("B.Tech").durationYears(4).department(mech).build());
-        Program mbaProg  = programRepo.save(Program.builder().name("MBA").durationYears(2).department(mba).build());
+        Program cseBtech = programRepo.save(Program.builder().name("B.Tech").durationYears(4).departmentId(cse.getId()).build());
+        Program cseMtech = programRepo.save(Program.builder().name("M.Tech").durationYears(2).departmentId(cse.getId()).build());
+        Program eceBtech = programRepo.save(Program.builder().name("B.Tech").durationYears(4).departmentId(ece.getId()).build());
+        Program mechBtech = programRepo.save(Program.builder().name("B.Tech").durationYears(4).departmentId(mech.getId()).build());
+        Program mbaProg  = programRepo.save(Program.builder().name("MBA").durationYears(2).departmentId(mba.getId()).build());
 
         // ── Teams Channels ────────────────────────────────────────────────────
         // CSE B.Tech years 1-4
@@ -131,7 +131,7 @@ public class DataSeeder implements CommandLineRunner {
 
     private TeamsChannel ch(String id, String name, Program prog, int year, int members) {
         return TeamsChannel.builder()
-            .channelId(id).channelName(name).program(prog)
+            .channelId(id).channelName(name).programId(prog.getId())
             .year(year).memberCount(members).active(true).build();
     }
 }

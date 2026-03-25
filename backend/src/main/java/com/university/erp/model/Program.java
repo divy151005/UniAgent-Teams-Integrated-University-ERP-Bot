@@ -1,12 +1,13 @@
 package com.university.erp.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 
-@Entity
-@Table(name = "programs")
+@Document(collection = "programs")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,19 +15,15 @@ import java.util.List;
 public class Program {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;   // e.g. B.Tech, M.Tech, MBA
 
+    @Field(name = "duration_years")
     private int durationYears;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "department_id", nullable = false)
-    private Department department;
+    @Field(name = "department_id")
+    private Long departmentId;
 
-    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
     private List<TeamsChannel> channels;
 }
