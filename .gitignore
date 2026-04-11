@@ -1,0 +1,36 @@
+# Maven
+backend/target/
+backend/*.log
+
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Env/DB
+data/
+*.env
+TELEGRAM_BOT_TOKEN*
+
+# Logs
+*.log
+mongod.log
+
+# OS generated
+.DS_Store
+DesktopServicesPRoles
